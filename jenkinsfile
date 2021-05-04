@@ -1,0 +1,33 @@
+pipeline {
+	agent any
+	
+	stages {
+		stage('build'){
+			steps {
+				echo 'budowanie'
+			}
+			}
+		stage('test') {
+			steps {
+				echo 'testowanie'
+				sh 'npm test'
+			}
+		}
+	}
+		
+	post {
+	
+		always{
+			echo 'zakonczono'
+		}
+		success{
+			echo 'udalo sie'
+			mail to:
+		}
+		
+		failure{
+			echo 'nie udalo sie'
+			mail to:
+		}
+	}	
+}
