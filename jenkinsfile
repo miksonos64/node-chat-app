@@ -16,17 +16,18 @@ pipeline {
 	}
 		
 	post {
-	
+
+		failure{
+			emailtest attachLog: true,
+			body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
+			to: 'mikixd4321@interia.pl',
+			subject: "Build failed"
+		}	
 		always{
 			echo 'zakonczono'
 		}
 		success{
 			echo 'udalo sie'
-			mail to:
-		}
-		
-		failure{
-			echo 'nie udalo sie'
 			mail to:
 		}
 	}	
