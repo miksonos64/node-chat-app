@@ -25,7 +25,7 @@ pipeline {
 		failure{
 			emailtest attachLog: true,
 			body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
-			to: 'mpowrozek@student.agh.edu.pl',
+			to: 'iluzjionist99@gmail.com',
 			subject: "test failed"
 		}	
 		success{
