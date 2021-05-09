@@ -23,7 +23,8 @@ pipeline {
 			post {
 
 		failure{
-			emailtest attachLog: true,
+			echo 'failed'
+			emailtext attachLog: true,
 			body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
 			to: 'iluzjionist99@gmail.com',
 			subject: "test failed"
