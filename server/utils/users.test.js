@@ -59,7 +59,7 @@ describe('Users', () => {
 	it('should return names for Lakers Fans', () => {
 		var userList = users.getUserList('Lakers Fans');
 
-		expect(userList).toEqual(['Binh', 'verstap']);
+		expect(userList).toEqual(['Binh', 'Steph']);
 	});
 
 	it('should return names for Fad Diet', () => {
