@@ -7,7 +7,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Budowanko'
-                sh 'npm install'
+                sh 'npma install'
         }
             
         post {
@@ -34,7 +34,6 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'testowanie'
-		sh 'npm install'
                 sh 'npm run test'
             }
 		
