@@ -14,7 +14,7 @@ pipeline {
 			post {
 
 		failure{
-			emailtest attachLog: true,
+			emailext attachLog: true,
 			body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
 			to: 'mpowrozek@student.agh.edu.pl',
 			subject: "Build failed"
@@ -24,7 +24,7 @@ pipeline {
 		}
 		success{
 			echo 'udalo sie'
-			emailtest attachLog: true,
+			emailext attachLog: true,
 			body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
 			to: 'mpowrozek@student.agh.edu.pl',
 			subject: "Build succedded"
@@ -40,7 +40,7 @@ pipeline {
 			post {
 
 		failure{
-			emailtest attachLog: true,
+			emailext attachLog: true,
 			body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
 			to: 'mpowrozek@student.agh.edu.pl',
 			subject: "test failed"
