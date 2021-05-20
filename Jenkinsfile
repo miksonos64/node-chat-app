@@ -1,61 +1,83 @@
 pipeline {
-
-    agent any
-    	tools{nodejs "node"}
+	agent any
 	
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Budowanko'
-                sh 'npm install'
-        }
-            
-        post {
-         always {
-            echo 'ended '
-         }
-         success {
-            echo 'done'
-            emailext attachLog: true,
-                body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
-                to: 'iluzjionist99@gmail.com',
-                subject: "logs success"
-         }
-         failure {
-            echo 'error'
-            emailext attachLog: true,
-                body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
-                to: 'iluzjionist99@gmail.com',
-                subject: "log error"
-         }
-     	 }
-       }
-       
-        stage('Test') {
-            steps {
-                echo 'testowanie'
-                sh 'npma run test'
-            }
-		
-	post {
-		always {
-		    echo 'end'
-		}
-		success {
-		    echo 'udalo sie'
-		    emailext attachLog: true,
+	tools {
+		nodejs "node"
+	}
+	
+	stages {
+		stage('build'){
+			steps {
+				echo 'budowanie'
+				sh 'npm install'
+			}
+			post {
+
+		failure{
+			emailtest attachLog: true,
 			body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
-			to: 'iluzjionist99@gmail.com',
-			subject: "log success"
+			to: 'mpowrozek@student.agh.edu.pl',
+			subject: "Build failed"
+		}	
+		always{
+			echo 'zakonczono'
 		}
-		failure {
-		    echo 'error'
-		    emailext attachLog: true,
+		success{
+			echo 'udalo sie'
+			emailtest attachLog: true,
 			body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
-			to: 'iluzjionist99@gmail.com',
+			to: 'mpowrozek@student.agh.edu.pl',
+			subject: "Build succedded"
+		}
+	}	
+	
+			}
+		stage('test') {
+			steps {
+				echo 'testowanie'
+				sh 'npm test'
+			}
+			post {
+
+		failure{
+			emailtest attachLog: true,
+			body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
+			to: 'mpowrozek@student.agh.edu.pl',
 			subject: "test failed"
+		}	
+		always{
+			echo 'zakonczono'
 		}
-    	}
-      }
-    }
+		success{
+			echo 'udalo sie'
+		}
+	}
+		}
+		
+		stage('Deploy') {
+  		 steps {
+                echo 'deployowanie'
+                sh 'docker build -t node-chat-deploy -f Dockerfile.deploy .'
+            }
+            post {
+		    	success {
+			    echo 'deploy udany!'
+			    emailext attachLog: true,
+				body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
+				to: 'iluzjionist99@gmail.com',
+				subject: "success"
+		    	}
+		    	
+			failure {
+			    echo 'deploy nieudany :('
+			    emailext attachLog: true,
+				body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}",
+				to: 'iluzjionist99@gmail.com',
+				subject: "error"
+			}
+    		}
+		
+	}
+			
+}
 }
